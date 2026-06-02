@@ -56,6 +56,7 @@ tests:
 
 about:
   homepage: https://forge.hekkelman.net/maarten/salt
+  documentation: https://forge.hekkelman.net/maarten/salt/src/tag/v${{ version }}/salt-manual.md
   repository: https://forge.hekkelman.net/maarten/salt
   license: BSD-2-Clause
   license_file: LICENSE
