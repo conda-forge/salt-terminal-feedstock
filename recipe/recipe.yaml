@@ -1,5 +1,5 @@
 context:
-  version: "5.0.0"
+  version: "5.0.1"
 
 package:
   name: salt-terminal
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://forge.hekkelman.net/maarten/salt/archive/v${{ version }}.tar.gz
-  sha256: e934135c0b2fd8d967d5a1244490e179f64a7f22e2665ef26171752561997c23
+  sha256: f322e57b164fd5aa7443807b71327d4ac5ca9520118778baaee959aff84ca141
 
 build:
   number: 0
