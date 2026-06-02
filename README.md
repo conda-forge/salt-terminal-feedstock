@@ -11,6 +11,8 @@ Summary: Terminal with built-in SSH
 
 Development: https://forge.hekkelman.net/maarten/salt
 
+Documentation: https://forge.hekkelman.net/maarten/salt/src/tag/v5.0.1/salt-manual.md
+
 Salt is a terminal emulator with built-in SSH.
 
 Current build status
