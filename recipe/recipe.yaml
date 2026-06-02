@@ -41,6 +41,7 @@ requirements:
     - gtk4
     - libcanberra
     - libgxrio
+    - liblzma-devel
     - libmcfp
     - libmgui
     - libpinch
