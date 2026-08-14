@@ -10,7 +10,7 @@ source:
   sha256: f322e57b164fd5aa7443807b71327d4ac5ca9520118778baaee959aff84ca141
 
 build:
-  number: 0
+  number: 1
   # Remove windows in the future when we have windows support
   skip:
     - osx
@@ -22,6 +22,32 @@ build:
       -DBUILD_DOCUMENTATION=ON
     cmake --build build --parallel ${CPU_COUNT}
     ./build/salt -i --prefix ${PREFIX}
+
+    if [[ "${target_platform}" == linux-* ]]; then
+      mkdir -p "${PREFIX}/Menu"
+
+      # Prefer the icon/menu metadata produced by upstream's installer when
+      # available; only fall back to the recipe-local asset if it is absent.
+      if [[ ! -f "${PREFIX}/Menu/salt_menu.json" ]]; then
+        cp "${RECIPE_DIR}/menu.json" "${PREFIX}/Menu/salt_menu.json"
+      fi
+
+      if [[ ! -f "${PREFIX}/Menu/salt.png" ]]; then
+        upstream_icon=""
+        for search_dir in "${PREFIX}/share" "${PREFIX}/lib" "${PREFIX}/libexec" "${PREFIX}/usr/share" "${PREFIX}/opt"; do
+          if [[ -d "${search_dir}" ]]; then
+            upstream_icon="$(find "${search_dir}" -type f \( -iname "salt*.png" -o -iname "icon*.png" \) -print -quit 2>/dev/null)"
+            if [[ -n "${upstream_icon}" ]]; then
+              break
+            fi
+          fi
+        done
+
+        if [[ -n "${upstream_icon}" ]]; then
+          cp "${upstream_icon}" "${PREFIX}/Menu/salt.png"
+        fi
+      fi
+    fi
 
 requirements:
   build:
@@ -45,7 +71,7 @@ requirements:
     - libmcfp
     - libmgui
     - libpinch
-    - libzeep
+    - libzeep >=7.0.0,<8.0.0a0
     - maartens_resource_compiler
     - zeem
     - zlib
@@ -54,6 +80,12 @@ tests:
   - script:
       - salt --version
       - salt --help
+  - package_contents:
+      bin:
+        - salt
+      files:
+        - Menu/salt_menu.json
+        - Menu/salt.png
 
 about:
   homepage: https://forge.hekkelman.net/maarten/salt
